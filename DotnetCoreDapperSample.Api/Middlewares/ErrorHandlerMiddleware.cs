@@ -34,7 +34,7 @@ namespace DotnetCoreDapperSample.Api.Middlewares
 
                 switch (error)
                 {
-                    case AppException e:
+                    case AppException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     case KeyNotFoundException e:
