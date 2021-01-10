@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Data;
+using DotnetCoreDapperSample.Api.Filters;
 using DotnetCoreDapperSample.Api.Middlewares;
 using DotnetCoreDapperSample.Api.Repositories;
 using Oracle.ManagedDataAccess.Client;
@@ -28,7 +29,8 @@ namespace DotnetCoreDapperSample.Api
             services.AddScoped<BlogRepository>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddControllers();
+            services.AddControllers(options => options.Filters.Add(typeof(ValidateModelFilter)))
+                .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true); // デフォルトのモデル検証を無効化します
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DotnetCoreDapperSample.Api", Version = "v1" });

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using DotnetCoreDapperSample.Api.Exceptions;
 using DotnetCoreDapperSample.Api.Models;
 using DotnetCoreDapperSample.Api.Repositories;
@@ -25,9 +26,11 @@ namespace DotnetCoreDapperSample.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public Blog Get(int id)
+        public ActionResult<Blog> Get(int id)
         {
-            return _blogRepository.Get(id);
+            var blog = _blogRepository.Get(id);
+            if (blog == null) throw new AppException(Messages.Msg002);
+            return blog;
         }
 
         [HttpPost]
@@ -35,7 +38,7 @@ namespace DotnetCoreDapperSample.Api.Controllers
         {
             if (_blogRepository.Get(blog.Id) != null)
             {
-                throw new AppException("対象のデータは既に登録されています。");
+                throw new AppException(Messages.Msg001);
             }
 
             using IDbTransaction tran = _blogRepository.BeginTransaction();
