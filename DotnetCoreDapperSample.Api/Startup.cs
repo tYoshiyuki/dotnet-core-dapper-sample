@@ -1,17 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using DotnetCoreDapperSample.Api.Middlewares;
 using DotnetCoreDapperSample.Api.Repositories;
 using Oracle.ManagedDataAccess.Client;
 
@@ -33,6 +27,7 @@ namespace DotnetCoreDapperSample.Api
             services.AddScoped<IDbConnection>(sp => new OracleConnection(connectionString));
             services.AddScoped<BlogRepository>();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +50,10 @@ namespace DotnetCoreDapperSample.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseErrorHandler();
+
+            app.UseAccessLogging();
 
             app.UseEndpoints(endpoints =>
             {
