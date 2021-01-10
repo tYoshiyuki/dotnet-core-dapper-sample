@@ -10,5 +10,11 @@ namespace DotnetCoreDapperSample.Api.Repositories
         {
             DbConnection = dbConnection;
         }
+
+        public IDbTransaction BeginTransaction()
+        {
+            if (DbConnection.State == ConnectionState.Closed) DbConnection.Open();
+            return DbConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+        }
     }
 }

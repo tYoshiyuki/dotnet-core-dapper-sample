@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data;
+using DotnetCoreDapperSample.Api.Exceptions;
 using DotnetCoreDapperSample.Api.Models;
 using DotnetCoreDapperSample.Api.Repositories;
 
@@ -20,6 +22,26 @@ namespace DotnetCoreDapperSample.Api.Controllers
         public IEnumerable<Blog> Get()
         {
             return _blogRepository.GetList();
+        }
+
+        [HttpGet("{id}")]
+        public Blog Get(int id)
+        {
+            return _blogRepository.Get(id);
+        }
+
+        [HttpPost]
+        public Blog Post(Blog blog)
+        {
+            if (_blogRepository.Get(blog.Id) != null)
+            {
+                throw new AppException("対象のデータは既に登録されています。");
+            }
+
+            using IDbTransaction tran = _blogRepository.BeginTransaction();
+            _blogRepository.Create(blog);
+            tran.Commit();
+            return _blogRepository.Get(blog.Id);
         }
     }
 }
