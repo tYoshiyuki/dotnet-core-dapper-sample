@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DotnetCoreDapperSample.Api
+﻿namespace DotnetCoreDapperSample.Api
 {
     public static class Messages
     {
