@@ -2,13 +2,14 @@
 using System.Data;
 using System.Linq;
 using Dapper;
+using DotnetCoreDapperSample.Api.Databases;
 using DotnetCoreDapperSample.Api.Models;
 
 namespace DotnetCoreDapperSample.Api.Repositories
 {
     public class BlogRepository : BaseRepository
     {
-        public BlogRepository(IDbConnection dbConnection) : base(dbConnection) { }
+        public BlogRepository(AppDbConnectionProvider provider) : base(provider) { }
 
         public Blog Get(int id)
         {

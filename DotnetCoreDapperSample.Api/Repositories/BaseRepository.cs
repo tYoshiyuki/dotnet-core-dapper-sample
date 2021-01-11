@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using DotnetCoreDapperSample.Api.Databases;
 
 namespace DotnetCoreDapperSample.Api.Repositories
 {
@@ -9,6 +10,11 @@ namespace DotnetCoreDapperSample.Api.Repositories
         protected BaseRepository(IDbConnection dbConnection)
         {
             DbConnection = dbConnection;
+        }
+
+        protected BaseRepository(AppDbConnectionProvider provider)
+        {
+            DbConnection = provider.GetDbConnection();
         }
 
         public IDbTransaction BeginTransaction()

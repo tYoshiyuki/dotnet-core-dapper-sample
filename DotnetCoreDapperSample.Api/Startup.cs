@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Data;
+using DotnetCoreDapperSample.Api.Databases;
 using DotnetCoreDapperSample.Api.Filters;
 using DotnetCoreDapperSample.Api.Middlewares;
 using DotnetCoreDapperSample.Api.Repositories;
@@ -25,7 +26,7 @@ namespace DotnetCoreDapperSample.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddScoped<IDbConnection>(sp => new OracleConnection(connectionString));
+            services.AddScoped(sp => new AppDbConnectionProvider(new OracleConnection(connectionString)));
             services.AddScoped<BlogRepository>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
