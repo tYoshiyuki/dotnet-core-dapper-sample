@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using System.Transactions;
 using DotnetCoreDapperSample.Api.Exceptions;
 using DotnetCoreDapperSample.Api.Models;
 using DotnetCoreDapperSample.Api.Repositories;
@@ -41,9 +40,18 @@ namespace DotnetCoreDapperSample.Api.Controllers
                 throw new AppException(Messages.Msg001);
             }
 
-            using IDbTransaction tran = _blogRepository.BeginTransaction();
-            _blogRepository.Create(blog);
-            tran.Commit();
+            // TransactionScope を利用した実装例
+            using (TransactionScope scope = new TransactionScope())
+            {
+                _blogRepository.Create(blog);
+                scope.Complete();
+            }
+
+            // IDbTransaction を利用した実装例
+            // using IDbTransaction tran = _blogRepository.BeginTransaction();
+            // _blogRepository.Create(blog);
+            // tran.Commit();
+
             return _blogRepository.Get(blog.Id);
         }
     }
