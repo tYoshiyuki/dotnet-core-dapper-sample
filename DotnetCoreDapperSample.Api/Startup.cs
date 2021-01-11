@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Data;
 using DotnetCoreDapperSample.Api.Databases;
 using DotnetCoreDapperSample.Api.Filters;
 using DotnetCoreDapperSample.Api.Middlewares;
