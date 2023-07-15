@@ -2,7 +2,7 @@
 ASP.NET Core と Dapper + Oracle のサンプル
 
 ## Feature
-- .NET5
+- .NET6
 - ASP.NET Core
 - Dapper
 - ODP.NET
